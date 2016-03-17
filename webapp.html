@@ -1,0 +1,292 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>移动WEB知识</title>
+<style>
+*
+{
+	margin:0;
+	padding:0;
+}
+.pic
+{
+	width:100%;
+	height:400px;
+	background-color:#ffe872;
+	color:white;
+	font-size:50px;
+	text-align: center;
+	line-height: 400px;
+	font-family: cursive;
+}
+.pice
+{
+	width:100%;
+	height:100px;
+	line-height:100px;
+	background-color:blue;
+	color:white;
+	font-size:50px;
+	text-align: center;
+	font-family: cursive;
+	position:fixed;
+	left:0;
+	bottom:0;
+	overflow:hidden;
+	background-color:#de7c3c;
+	padding:10px;
+	/*flex-direction:row-reverse;横向的方向
+	flex-direction:column;纵向的方向*/
+	display:-webkit-flex;	/*标示使用弹性布局*/
+}
+.item1
+{
+	
+	color:#fddfa7;
+	padding:0 5px;
+	text-align: center;
+	border-right:1px solid #000;
+	flex:1;
+}
+.item2
+{
+	color:#fddfa7;
+	padding:0 5px;
+	text-align: center;
+	border-right:1px solid #000;
+	flex:2;	/*占容器的比例*/
+}
+.item3
+{
+	color:#fddfa7;
+	padding:0 5px;
+	text-align: center;
+	flex:3;	/*占容器的比例*/
+}
+</style>
+<script>
+/*
+===========================================================
+Pixel 移动开发像素知识
+px:css pixels 逻辑像素，浏览器使用的抽象单位
+dp,pt:device independent pixels 设备无关像素
+dpr:devicePixelRatio 设备像素缩放比
+
+iphone5
+平面上:1px = (2)*2*dp
+纬度上:1px = 2*dp
+640dp*1136dp
+	||
+320px*568px
+DPI:打印机每英寸可以喷的墨汁点
+PPI:屏幕每英寸的像素数量，即单位英寸内的像素密度
+目前，在计算机显示设备参数描述上，二者意思表达的是一样的。
+计算公式：以iphone5为例子
+ppi=(1136*1136+640*640)/4 = 326ppi(视网膜Retina屏)
+注意:单位为硬件像素，非px
+
+ppi越高 像素数越高 图像越清晰
+但可视度越底，默认缩放比越大
+
+Viewport
+一：页面渲染在一个980px(ios)的viewport
+二：缩放
+为了排版正确，在viewport里渲染
+visual Viewport 窗口缩放
+layout Viewport 渲染
+
+用默认的viewport页面不规范
+
+<meta name="veiwport" content="name=value,name=vlaue"
+width:设置布局viewport的特定值('device-width')
+initial-scale:设置页面的初始缩放
+minimum-scale:最少缩放
+maximum-scale:最大缩放
+user-scalable:用户能否缩放
+====================================================
+
+弹性式
+给父级加：display:-webkit-flex;	/*标示使用弹性布局
+给子级加：flex:1;	/*占容器的比例
+1、子级可以都用flex;
+2、子级也可以像素和flex混合设置
+
+不定宽高的水平垂直居中
+css3
+.myclass
+{
+	position:absolute;
+	top:50%;
+	left:50%;
+	z-index:3;
+	-webtransform:translate(-50%,-50%);
+	border-radius:6px;
+	background:#fff;
+}
+flexbox
+.parent
+{
+	iustify-content:center;	水平
+	align-items:center;	垂直
+	display:-webkit-flex;
+}
+
+web的flex弹性盒模型
+direction
+横向
+flex-direction:row;	正向
+flex-direction:row-reverse;	反向
+display:-webkit-flex;
+纵向
+flex-direction:column;
+flex-direction:column-reverse;
+换行(当父级小于子级的时候是否换行)
+-webkit-flex-wrap:nowrap		否
+-webkit-flex-wrap:wrap 			是
+-webkit-flex-wrap:wrap-reverse	换行之后反转
+
+justify-content
+justify-content:flex-start;		左->右
+justify-content:flex-end;		右->左
+justify-content:center;			中
+justify-content:space-between;	两边
+justify-content:space-around;	左右留白相等
+display:-webkit-flex;
+====
+align-self用于子级
+align-self:flex-start;
+align-self:flex-end;
+align-self:flex-center;
+align-self:flex-auto;
+align-self:flex-baseline;
+align-self:flex-stretch;		全铺满
+display:-webkit-flex;
+
+align-items 用于父级
+align-items:flex-start;
+align-items:flex-end;
+align-items:flex-center;
+align-items:flex-auto;
+align-items:flex-baseline;
+align-items:flex-stretch;
+display：-webkit-flex;
+
+flexbox布局
+display:-webkit-flex-box
+-webkit-flex-box:1;
+box-pack:center;
+box-align:center;
+===============================================================
+响应式
+@media all and (max-width:1024){
+	
+}
+@media all and (max-width:980){
+	
+}
+@media screen and (max-width:320){
+	
+}
+
+媒体类型：
+screen(屏幕)
+print(打印机)
+handheld(手持设备)
+all(通用)
+
+常用媒体查询参数：
+width-----视口宽高
+height-----视口宽高
+device-width----设备的高度
+device-height----设备的高度
+orientation:检查设备处于横向(landscape)还是竖向(portrait)
+
+设计点一：百分比布局
+
+设计点一：弹性图片
+img
+{
+	max-width:100%;
+	height:auto;
+}
+设计点三：重新布局，显示与隐藏
+随着屏幕要经常改变的块 要用position定位(出于性能考虑)
+=========================================================================
+高清图片
+width:(w_vlaue/dpr)px;
+height:(h_vlaue/dpr)px;
+
+一像素边框
+.sidebar .folder li
+{
+	padding:8px 0 8px 15px;
+	color:#7C7C7C;
+	cursor:pointer;
+	position:relative;
+}
+.folder li + li:before
+{
+	position:absolute;
+	top:-1px;
+	left:0;
+	content:'';
+	width:100%;
+	height:1px;
+	border-top:1px solid #ddd;
+	-webkit-transform:scaleY(0.5);
+}
+相对单位rem
+em:是根据父节点的font-size为相对单位
+rem:是根据html的font-size为相对单位
+em在多层嵌套下，变得非常难以为何
+rem更加能作为全局统一设置的度量
+
+单行文本溢出
+.inaline
+{
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+}
+多行文本溢出
+.intwoline
+{
+	display:-webkit-box !important;
+	overflow:hidden;
+
+	text-overflow:ellipsis;
+	word-break:break-all;
+
+	-webkit-box-orient:vertical;
+	-webkit-line-clamp:2;
+}
+===================================================
+事件
+300毫秒的故事
+300毫秒内判断是单击还是双击
+Tap基础事件
+在touchstart、touchend时记录时间、手指位置，在touchend是进行比较，如果手指位置为同一位置(或允许移动一个非常小的位移值)且时间间隔较短(一般认为是200ms),且过程中未曾触发过touchmove,即可认为触发了手持设备上的“click”,一般称它为“tap”
+有蒙层的时候Tap点透bug
+蒙层消失之后事件被下面层接收了
+解决方案
+1、使用缓动动画，过渡300ms的延迟
+2、中间层dom元素的加入
+3、上下都用tap不用click
+
+Touch事件
+
+*/
+</script>
+</head>
+<body>
+<div class="pic">Yellow</div>
+<div class="pic">Yellow</div>
+<div class="pice">
+	<div class="item1">1</div>
+	<div class="item2">2</div>
+	<div class="item3">3</div>
+</div>
+</body>
+</html>
